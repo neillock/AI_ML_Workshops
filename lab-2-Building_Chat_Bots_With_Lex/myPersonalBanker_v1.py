@@ -29,7 +29,7 @@ def get_balance(intent_request):
 	balance = 0
 	if account_type.lower() == 'checking':
 		balance = 5000
-	if account_type.lower() == 'saving':
+	if account_type.lower() == 'savings':
 		balance = 10000
 	
 	session_attributes['currentIntent'] = intent_request['currentIntent']['name']
