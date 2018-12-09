@@ -17,7 +17,7 @@ In this workshop we are going to take a look at running Apache MXNet on the Amaz
 
 ## Running MXNet on AWS
 
-AWS provides you with the Deep Learning AMI, available both for Amazon Linux and Ubuntu. This AMI comes pre-installed with many Deep Learning frameworks (MXNet included), as well as all the Nvidia tools and more. No plumbing needed.
+AWS provides you with the Deep Learning AMI, available both for Amazon Linux and Ubuntu - simply search for __Deep Learning AMI__ for the operating system AMI of your choice when launching an EC2 instance. This AMI comes pre-installed with many Deep Learning frameworks (MXNet included), as well as all the Nvidia tools and more. No plumbing needed.
 
 ```
 ====================================================================
@@ -34,10 +34,10 @@ GPU 0: GRID K520 (UUID: GPU-d470337d-b59b-ca2a-fe6d-718f0faf2153)
 [ec2-user@ip-172-31-42-173 ~]$ python
 >>> import mxnet as mx
 >>> mx.__version__
-'1.0.0'
+'1.3.0'
 ```
 
-You can run this AMI either on a standard instance or on a GPU instance. If you want to train a model and don’t have a NVidia GPU on your machine your most inexpensive option will be to use a g2.2xlarge instance at $0.65 per hour.
+You can run this AMI either on a standard instance or on a GPU instance. If you want to train a model and don’t have a NVidia GPU on your machine your most inexpensive option with this AMI will be to use a p2.xlarge instance at $0.90 per hour.
 
 However in these labs we are using pre-trained models for speed so a standard instance of Amazon Linux is fine. This will allow us to get going with the lab without installing any special tools as the Deep Learning AMI comes with those pre-baked. Just remeber you need to source the environment after you SSH into the instance you create. In our case we want to use MXNet and python 2:
 
@@ -84,6 +84,8 @@ wget -O image0.jpeg https://cdn-images-1.medium.com/max/1600/1*sPdrfGtDd_6RQfYvD
 
 wget -O image1.jpeg http://kidszoo.org/wp-content/uploads/2015/02/clownfish3-1500x630.jpg
 ```
+
+__Note:__ if your compute resource is defaulting an IPv6 download, and the connection is simply taking too long (or not starting), then you can always force __wget__ to use IPv4 by appending the __-4__ parameter.
 
 ### Loading the model for use
 
@@ -239,14 +241,14 @@ sortedprob = np.argsort(prob)[::-1]
 (1000,)
 ```
 
-According to the model, the most likely category for this picture is #546 (if you are using image0.jpeg), with a probability of 58%.
+According to the model, the most likely category for this picture is #546 (if you are using image0.jpeg), with a probability of over 65%.
 
 ```python
 >> sortedprob
 [546 819 862 818 542 402 650 420 983 632 733 644 513 875 776 917 795
 etc.
 >> prob[546]
-0.58039135
+0.6544399
 ```
 
 Let’s find the name of this category. Using the synset.txt file, we can build a list of categories and find the one at index 546.
