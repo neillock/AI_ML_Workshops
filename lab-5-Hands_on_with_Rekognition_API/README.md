@@ -12,11 +12,11 @@ Earlier we looked at image recognition using Apache MXNet and we analysed an ima
 
 ![demo0.png](demo0.png)
 
-As you can see AWS has already done the heavy lifting of data preparation for you. Also it extends much further tom object detection. It can detect faces, guess the age of the person, compare faces and even process video streams in the same way.
+As you can see AWS has already done the heavy lifting of data preparation for you. Also it extends much further with object detection. It can detect faces, guess the age of the person, compare faces and even process video streams in the same way.
 
 ### Using Amazon Rekognition
 
-To start with lets look at the AWS CLI for Rekognition, we'll want a few sample images, ones you can use easily are from this repository, but feel free to subsitute with your own.
+To start with let's look at the AWS CLI for Rekognition, we'll want a few sample images, ones you can use easily are from this repository, but feel free to subsitute with your own.
 
 Create a public S3 bucket and upload the sample images.
 
@@ -79,13 +79,13 @@ The output of this shows there is indeed a face detected, and you can see detail
     "OrientationCorrection": "ROTATE_0"
 }
 ```
-However in most cases you don't want to just find a face you want some information about that face, gender and defining features, maybe the sentiment. We can do this by calling detect-labels.
+However in most cases you don't want to just find a face you want some information about that face, gender and defining features, maybe the sentiment. We can do this by calling __detect-labels__.
 
 ```bash
 aws rekognition detect-labels --image "S3Object={Bucket="image-demo-lab", Name="ric_harvey.jpeg"}"
 ```
 
-The resulting output determins I am indeed human.
+The resulting output determines that Ric is, indeed, human.
 
 ```json
 {
@@ -123,7 +123,7 @@ The resulting output determins I am indeed human.
 }
 ```
 
-So if we can find faces in images and identify key objects about that face we should be able to compare faces and find the same person in multiple photos. Heres an example using compare-faces.
+So if we can find faces in images and identify key objects about that face we should be able to compare faces and find the same person in multiple photos. Heres an example using __compare-faces__.
 
 ```bash
 aws rekognition compare-faces --source-image '{"S3Object":{"Bucket":"image-demo-lab","Name":"ric_harvey.jpeg"}}' --target-image '{"S3Object":{"Bucket":"image-demo-lab","Name":"ric.jpg"}}'
@@ -198,13 +198,13 @@ In the first example we have a match.
 }
 ```
 
-However lets look at a picture with more than one persojn in it.
+However lets look at a picture with more than one person in it.
 
 ```bash
 aws rekognition compare-faces --source-image '{"S3Object":{"Bucket":"image-demo-lab","Name":"ric_harvey.jpeg"}}' --target-image '{"S3Object":{"Bucket":"image-demo-lab","Name":"ric_crowd1.jpg"}}'
 ```
 
-the output fromt his shows 1 matched face and several unmatched faces.
+The output from this shows 1 matched face and several unmatched faces.
 
 ```json
 {
@@ -453,7 +453,7 @@ the output fromt his shows 1 matched face and several unmatched faces.
 }
 ```
 
-Repeating this with ric_crowd0.jpg will show no results.
+Repeating this with __ric_crowd0.jpg__ will show no results.
 
 ### Doing this from python
 
@@ -556,4 +556,4 @@ You'll need to create a compare-faces function and also get a list of all the ob
 
 [http://boto3.readthedocs.io/en/latest/reference/services/rekognition.html](http://boto3.readthedocs.io/en/latest/reference/services/rekognition.html)
 
-Let an instructor know when you've completed this there may be a prize.
+Let an instructor know when you've completed this - there may be a prize.
