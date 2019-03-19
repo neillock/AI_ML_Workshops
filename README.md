@@ -1,20 +1,17 @@
-# AI/ML Workshops (AWS Builders Days)
+# AI/ML Workshops
 
-Welcome to the AI/ML workshops for the AWS Buidlers Days 2018. Today we are going to take a look at several AI/ML offerings from AWS that you can use to build and train models or easily intergrate AI/ML features into your applications.
+Welcome to our collection of AI/ML workshops.  These are run as a series at AWS public events, such as Lofts, Summits or Builders' Days, but can all be run independently.  They will walk you through several AI/ML offerings from AWS that you can use to build and train models or easily intergrate AI/ML features into your applications.
 
-Below you'll find todays Agenda and our Evangelists and SA's will work with you in these labs to help you complete the sessions.
+Below you'll find a list of events where these have been run, so please select the session that your are in so that you can see what's being run today.  Our Evangelists and SA's will work with you in these labs to help you complete the sessions.
 
-![Builders Days 2018](./buildersday.png)
+![Workshops](./banners/workshop.png)
 
 ## Agenda
 
-| Time | Session | Workshop Title |
+| Date | Labs | Event Title |
 |---|:---:|:---|
-| 10.00 AM - 11.00 AM | 1 | [Introduction to Amazon AI/ML Services](https://github.com/drandrewkane/AI_ML_Workshops/tree/master/lab-1-Intro_to_Amazon_AI_ML) |
-| 11:30 AM - 12:30 PM | 2 | [Building Chat Bots with Lex](https://github.com/drandrewkane/AI_ML_Workshops/tree/master/lab-2-Building_Chat_Bots_With_Lex) |
-| 1:30 PM - 2:30 PM | 3 | [Hands on with Apache MXNet and the deep learning AMI](https://github.com/drandrewkane/AI_ML_Workshops/tree/master/lab-3-Hands_on_with_Apache_MXNet) |
-| 2:30 PM - 3:30 PM	| 4 | [Getting started with Sagemaker](https://github.com/drandrewkane/AI_ML_Workshops/tree/master/lab-4-Getting_started_with_Sagemaker) |
-| 3:45 PM – 4:45 PM	| 5 | [A hands-on look at the Amazon Rekognition API](https://github.com/drandrewkane/AI_ML_Workshops/tree/master/lab-5-Hands_on_with_Rekognition_API) |
+| Dec 10th/12th 2018 | 5 | [AWS Builders' Day - London and Dublin](https://github.com/drandrewkane/AI_ML_Workshops/tree/master/Agenda-BuildersDayDec2018.md) |
+| Mar 25th/26th 2019	| 5 | [AWS Loft - Johannesburg](https://github.com/drandrewkane/AI_ML_Workshops/tree/master/Agenda-JoburgLoftMar2019.md) |
 
 ## Feedback
 
