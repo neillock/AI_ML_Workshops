@@ -3,7 +3,11 @@
 # Personalize Your Recommendations
 
 ```bash
-'NOTE' this lab has been designed for Amazon Personalize whilst it was still in Preview; this means that you cannot interact with the service unless your AWS account has been explicitly whitelisted.  Soon after the service becomes 'Generally Available' the lab guide will be updated so that it can run in your own AWS account rather than via the AWS Event Engine system.
+'NOTE' this lab has been designed for Amazon Personalize whilst it was still in Preview;
+this means that you cannot interact with the service unless your AWS account has been
+explicitly whitelisted.  Soon after the service becomes 'Generally Available' the lab guide
+will be updated so that it can run in your own AWS account rather than via the AWS Event
+Engine system.
 ```
 
 ## Overview
@@ -24,7 +28,7 @@ This lab will walk you through the following:
 
 ## Launching a Jupyter Notebook using Amazon SageMaker
 
-1. Sign into the AWS Management Console via the AWS Event Engine [https://dashboard.eventengine.run/](https://dashboard.eventengine.run/)
+1. Sign into the AWS Management Console via the AWS Event Engine by opening this link in another window or tab: [https://dashboard.eventengine.run/](https://dashboard.eventengine.run/)
 
 2. In the dialog enter your lab "hash" key and click **Proceed**
 
@@ -34,7 +38,7 @@ This lab will walk you through the following:
 
 ![Console login](images/eventConsoleLogin.png)
 
-4. Click on **Amazon SageMaker** from the list of all services.  This will bring you to the Amazon SageMaker console homepage.  In another browser tab navigate to the **IAM** console homepage, as we'll need that shortly.
+4. Click on **Amazon SageMaker** from the list of all services by entering *Sagemaker* into the **Find services** box.  This will bring you to the Amazon SageMaker console homepage.  In another browser tab navigate to the **IAM** console homepage, as we'll need that shortly.
 
 ![Sagemaker console](images/Picture01.png)
 
@@ -48,11 +52,11 @@ This lab will walk you through the following:
 
 ![Find TeamRole](images/findTeamRole.png)
 
-6. Hit the clipboard icon to the right of the **Role ARN** line at the top of the form to copy the full ARN into the copy buffer.  Head back to the **SageMaker** window where you have part-created a notebook.  In the _IAM role_ field in **Permissions and encryption** section choose _Enter a custom IAM role ARN_ and paste the _TeamRole_ ARN into the box below.  Note that your ARN will have a different account number from that shown.
+6. Hit the clipboard icon to the right of the **Role ARN** line at the top of the form to copy the full ARN into your computer's clipboard.  Head back to the **SageMaker** window where you have part-created a notebook.  In the _IAM role_ field in **Permissions and encryption** section choose _Enter a custom IAM role ARN_ and paste the _TeamRole_ ARN into the box below.  Note that your ARN will have a different account number from that shown.
 
 ![Set TeamRole](images/setNotebookIAM.png)
 
-7. Scroll down and click on **Create Notebook Instance**.  Wait the notebook instance status is **InService**. This will take a few minutes once the creation process has started.  Then click on **Open Jupyter**
+7. Scroll down and click on **Create Notebook Instance**.  Wait the notebook instance status is **InService**. This will take a few minutes once the creation process has started.  Then click on **Open Jupyter** - whilst you're waiting you can perform step #1 of the next section to copy some files from Git
 
 ![Open Notebook](images/openNotebook.png)
 
@@ -63,8 +67,8 @@ We need to download two files before starting work, which are all stored within 
 - the Notebook file that contains the lab - **personalize_sample_notebook.ipynb**
 - a file that is part of the MovieLens dataset that has been edited slightly to remove some control characters that cause on of the _pandas_ library calls to fail - **u.item**
 
-1. Go to the Git repository address, https://github.com/drandrewkane/AI_ML_Workshops, navigate to the **Lab 6** and download the two files called **u.item** and **personalize_sample_notebook.ipynb** respectively.  Use any method that you are comfortable with, such as cloning the whole repository, or opening the files within Git and download them **CHECK THIS WORKS!!!**
-2. In the notebook click on the **Upload** button, and in the dialog select the two files from the location that you stored them and upload them.
+1. Go to the Git repository address, https://github.com/drandrewkane/AI_ML_Workshops, navigate to the **Lab 6** and download the two files called **u.item** and **personalize_sample_notebook.ipynb** respectively.  Use any method that you are comfortable with, such as cloning the whole repository, or opening the files within Git in RAW format and saving them locally (be careful to maintain the correct file extentions)
+2. In the notebook, assuming the status is now **InService**, and click on the **Upload** button, and in the dialog select the two files from the location that you stored them and upload them.
 
 ![Upload files](images/uploadFiles.png)
 
@@ -84,9 +88,11 @@ We need to download two files before starting work, which are all stored within 
 
 ![First code cell](images/loadBoto3Pre.png)
 
-3. To the left of a Code module is a set of empty braces **[ ]**.  By highlighting the cell and then selecting the _Run_ command in the menu bar, the Jupyter notebook will execute this code, outputting and code outputs to the notebook screen and keeping any results data internally for re-use in future steps
+3. To the left of a Code module is a set of empty braces **[ ]**.  By highlighting the cell and then selecting the _Run_ command in the menu bar, the Jupyter notebook will execute this code, outputting and code outputs to the notebook screen and keeping any results data internally for re-use in future steps.  Do this now to execute the first code cell.
 
-4. Whilst the code is executing the braces will change to be **[\*]**, indicating that it is executing, and once complete will change to **[1]**.  Future cells will have increasing numbers inside the braces, and this helps you see the order in which cells have been exected within the notebook.  Directly below the code, but still within the Code cell, is the output from the code execution - this will include any error messages that your code has thrown.
+*Note: if a Markdown cell is highlighted, then clicking **Run** will move the highlight to the next cell*
+
+3. Whilst the code is executing the braces will change to be **[\*]**, indicating that it is executing, and once complete will change to **[1]**.  Future cells will have increasing numbers inside the braces, and this helps you see the order in which cells have been exected within the notebook.  Directly below the code, but still within the Code cell, is the output from the code execution - this will include any error messages that your code has thrown.
 
 ![First execution](images/loadBoto3Post.png)
 
