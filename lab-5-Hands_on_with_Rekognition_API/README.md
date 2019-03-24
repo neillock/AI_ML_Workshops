@@ -1,4 +1,6 @@
-## Hands on with the Amazon Rekognition API
+![Workshops](../banners/aws.png)  ![Workshops](images/rekognition.png)
+**Last Updated:** December 2018
+# Hands on with the Amazon Rekognition API
 
 ### Requirements
 
@@ -6,7 +8,7 @@
 - AWS CLI tools installed
 - python + boto3 + some python skills
 
-### Why Amazon Rekognition?
+## Why Amazon Rekognition?
 
 Earlier we looked at image recognition using Apache MXNet and we analysed an image of a rock guitarist. In order to do that we had to prepare the data, this takes time when dealing with thousands or millions of images. Rekognition does this for you automatically. The screen shot below shows the same image processed by rekognition.
 
@@ -14,7 +16,7 @@ Earlier we looked at image recognition using Apache MXNet and we analysed an ima
 
 As you can see AWS has already done the heavy lifting of data preparation for you. Also it extends much further with object detection. It can detect faces, guess the age of the person, compare faces and even process video streams in the same way.
 
-### Using Amazon Rekognition
+## Using Amazon Rekognition
 
 To start with let's look at the AWS CLI for Rekognition, we'll want a few sample images, ones you can use easily are from this repository, but feel free to subsitute with your own.
 
@@ -455,7 +457,7 @@ The output from this shows 1 matched face and several unmatched faces.
 
 Repeating this with __ric_crowd0.jpg__ will show no results.
 
-### Doing this from python
+## Doing this from python
 
 Using the CLI is fine but if you want to embed this into you system you'll need to make these calls from code. We'll use Python to do this and we'll need boto3 installed for accessing the AWS API:
 
@@ -465,7 +467,7 @@ pip install boto3
 
 __Note:__ OSX may need to run ```sudo -H pip install boto3```
 
-#### Sample code
+### Sample code
 
 Lets look at some same code that allows you to detect faces and the labels for each face. Try running this on a few of the sample images.
 
@@ -543,7 +545,7 @@ for l in labels:
         labelText = labelText + l['Name'] + ", "
 ```
 
-### Challenge 1 (Where's Ric)
+## Challenge 1 (Where's Ric)
 
 Durring registration I took some photos and uploaded them to a public S3 bucket s3://image-demo-lab there is also an array of asorted images in the bucket. Your challenge is to:
 
@@ -552,7 +554,7 @@ Durring registration I took some photos and uploaded them to a public S3 bucket 
 
 You'll need to create a compare-faces function and also get a list of all the objects in the S3 bucket (warning they may not all be images!) Extra points for the fastest way of doing this.
 
-#### Resources
+## Resources
 
 [http://boto3.readthedocs.io/en/latest/reference/services/rekognition.html](http://boto3.readthedocs.io/en/latest/reference/services/rekognition.html)
 

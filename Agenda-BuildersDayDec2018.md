@@ -1,10 +1,12 @@
-# AI/ML Workshops (AWS Builders Days)
+![Builders Days 2018](./banners/buildersday.png)
+
+# AI/ML Workshops
+
+## AWS Builders Days 2018
 
 Welcome to the AI/ML workshops for the AWS Buidlers Days 2018. Today we are going to take a look at several AI/ML offerings from AWS that you can use to build and train models or easily intergrate AI/ML features into your applications.
 
 Below you'll find todays Agenda and our Evangelists and SA's will work with you in these labs to help you complete the sessions.
-
-![Builders Days 2018](./banners/buildersday.png)
 
 ## Agenda
 

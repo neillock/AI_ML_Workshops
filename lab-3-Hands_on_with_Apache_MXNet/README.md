@@ -1,13 +1,15 @@
+![Workshops](../banners/aws.png)  ![Workshops](images/mxnet.png)
+**Last Updated:** December 2018
 # Hands on with Apache MXNet
 
-## Requirements
+### Requirements
 
 - AWS Account
 - Basic understanding of ML and NDArrays
 - SSH Client and key
 - Linux Skills
 
-## Credits
+### Credits
 
 This workshop is adapted from Julien Simons blog posts: [https://medium.com/@julsimon/getting-started-with-deep-learning-and-apache-mxnet-34a978a854b4](https://medium.com/@julsimon/getting-started-with-deep-learning-and-apache-mxnet-34a978a854b4)
 
@@ -176,23 +178,23 @@ array = mx.nd.array(img)
 (1L, 3L, 224L, 224L)
 ```
 
-Here’s our input picture's.
+Here’s our input pictures.
 
-![Input picture 448x336 (Source: metaltraveller.com)](image0.jpeg)
-![Input picture 1500x630 (Source: kidszoo.org](image1.jpeg)
+_Guitarist: images/sample-image0.jpeg_
+![Input picture 448x336 (Source: metaltraveller.com)](images/sample-image0.jpeg)
+
+_Clownfish: images/sample-image1.jpeg_
+![Input picture 1500x630 (Source: kidszoo.org](images/sample-image1.jpeg)
 
 There imput sizes are 448x336 / 1500x630 and they are in full colour. Remember our model needs images of 224x224 and in RGB.
 
 Once processed, these pictures have been resized and split into RGB channels stored in array[0] 
 
-![array[0][0] : 224x224 red channel](image0-red.jpeg)
-![array[0][0] : 224x224 red channel](image1-red.jpeg)
+_Guitarist_
+![array[0][0] : 224x224 red channel](images/image0-red.jpeg)  ![array[0][1] : 224x224 green channel](images/image0-green.jpeg)  ![array[0][2] : 224x224 blue channel](images/image0-blue.jpeg)
 
-![array[0][1] : 224x224 green channel](image0-green.jpeg)
-![array[0][1] : 224x224 red channel](image1-green.jpeg)
-
-![array[0][2] : 224x224 blue channel](image0-blue.jpeg)
-![array[0][2] : 224x224 blue channel](image1-blue.jpeg)
+_Clown Fish_
+![array[0][0] : 224x224 red channel](images/image1-red.jpeg)  ![array[0][1] : 224x224 red channel](images/image1-green.jpeg)  ![array[0][2] : 224x224 blue channel](images/image1-blue.jpeg)
 
 If you choose to increase the batch size to higher than 1 and run both images through the model together, then we would have a second image in array[1], a third in array[2] and so on.
 
