@@ -19,32 +19,58 @@ In this workshop we are going to take a look at running Apache MXNet on the Amaz
 
 ## Running MXNet on AWS
 
-AWS provides you with the Deep Learning AMI, available both for Amazon Linux and Ubuntu - simply search for __Deep Learning AMI__ for the operating system AMI of your choice when launching an EC2 instance. This AMI comes pre-installed with many Deep Learning frameworks (MXNet included), as well as all the Nvidia tools and more. No plumbing needed.
+AWS provides you with the Deep Learning AMI, available both for Amazon Linux and Ubuntu - simply search for __Deep Learning AMI__ for the operating system AMI of your choice when launching an EC2 instance - remember to select the **Amazon Linux**. This AMI comes pre-installed with many Deep Learning frameworks (MXNet included), as well as all the Nvidia tools and more. No plumbing needed.
 
-```
-====================================================================
-       __|  __|_  )
-       _|  (     /   Deep Learning AMI for Amazon Linux
-      ___|\___|___|
-====================================================================
+You can run this AMI either on a standard instance or on a GPU instance. If you want to train a model and don’t have a NVidia GPU on your machine your most inexpensive option with this AMI will be to use a *p2.xlarge* instance at $0.90 per hour.
 
-[ec2-user@ip-172-31-42-173 ~]$ nvidia-smi -L
-GPU 0: GRID K520 (UUID: GPU-d470337d-b59b-ca2a-fe6d-718f0faf2153)
+However in these labs we are using pre-trained models for speed so a standard *m5.2xlarge* instance of Amazon Linux will be fine . This will allow us to get going with the lab without installing any special tools as the Deep Learning AMI comes with those pre-baked.
 
-[ec2-user@ip-172-31-42-173 ~]$ source activate mxnet_p27
+When you launch the instance use configuration like the following:
 
-[ec2-user@ip-172-31-42-173 ~]$ python
->>> import mxnet as mx
->>> mx.__version__
-'1.3.0'
-```
+- Use a VPC with an Internet Gateway
+- Enable Auto-Assign Public IP
+- 75Gb of SSD storage
+- Security Group allowed SSH from the Internet
+- Create a new EC2 key-pair, or re-use an existing EC2 key-pair that you have locally
 
-You can run this AMI either on a standard instance or on a GPU instance. If you want to train a model and don’t have a NVidia GPU on your machine your most inexpensive option with this AMI will be to use a p2.xlarge instance at $0.90 per hour.
+Once the instance has launched, connect to it using SSH with a tool of your preference, using the public IP address of the instance and the user **ec2-user**.  For instance, on a Mac the standard CLI command for doing would be similar to:
 
-However in these labs we are using pre-trained models for speed so a standard instance of Amazon Linux is fine. This will allow us to get going with the lab without installing any special tools as the Deep Learning AMI comes with those pre-baked. Just remeber you need to source the environment after you SSH into the instance you create. In our case we want to use MXNet and python 2:
+`ssh -i myEC2keypairfile.pem ec2-user@10.11.12.13`
+
+Remember to replade the IP address with that of your instance!  You should see the following screen banner, followed by a series of instructions to enable the various available frameworks; the list is long, so the screen below is just the start of the output.
 
 ```bash
-source activate mxnet_p27
+=============================================================================
+       __|  __|_  )
+       _|  (     /   Deep Learning AMI (Amazon Linux) Version 22.0
+      ___|\___|___|
+=============================================================================
+
+Please use one of the following commands to start the required environment with the framework of your choice:
+for MXNet(+Keras2) with Python3 (CUDA 9.0 and Intel MKL-DNN) _____________________________________ source activate mxnet_p36
+for MXNet(+Keras2) with Python2 (CUDA 9.0 and Intel MKL-DNN) _____________________________________ source activate mxnet_p27
+
+<<screen cut for brevity>>
+
+[ec2-user@ip-172-31-42-173 ~] _
+```
+
+If you have launched a GPU-enabled intance then you can quickly see what's available with this command:
+
+```bash
+[ec2-user@ip-172-31-29-159 ~]$ nvidia-smi -L
+GPU 0: Tesla K80 (UUID: GPU-cf550255-cb68-db1d-e9ad-ff9e6681c0d8)
+```
+
+Before we start we need to activate our framework, and in our case we want to use MXNet and python 2, so enter the following command:
+
+```bash
+[ec2-user@ip-172-31-29-159 ~]$ source activate mxnet_p27
+WARNING: First activation might take some time (1+ min).
+Installing MXNet optimized for your Amazon EC2 instance......
+Env where framework will be re-installed: mxnet_p27
+<<followed by a large list of dependency checks>>
+Installation complete.
 ```
 
 ## Using a pre-trained model
@@ -58,15 +84,17 @@ The model zoo is a collection of pre-trained models ready for use. You’ll find
 Let’s download the definition and the parameters. Feel free to open the first file you’ll see the definition of all the layers. The second one is a binary file, so don’t try and open that.
 
 ```bash
-$ wget http://data.dmlc.ml/models/imagenet/inception-bn/Inception-BN-symbol.json
+$ wget http://data.mxnet.io/models/imagenet/inception-bn/Inception-BN-symbol.json
 
-$ wget -O Inception-BN-0000.params http://data.dmlc.ml/models/imagenet/inception-bn/Inception-BN-0126.params
+$ wget -O Inception-BN-0000.params http://data.mxnet.io/models/imagenet/inception-bn/Inception-BN-0126.params
 ```
+
+__Note:__ if your compute resource is defaulting an IPv6 download, and the connection is simply taking too long (or not starting), then you can always force __wget__ to use IPv4 by appending the __-4__ parameter.
 
 Since this model has been trained on the ImageNet data set, we also need to download the corresponding list of image categories which contains the 1000 categories, that way we can see the human readable prediction output. You can take a look at this file also.
 
 ```bash
-$ wget http://data.dmlc.ml/models/imagenet/synset.txt
+$ wget https://s3-eu-west-1.amazonaws.com/ak-public-docs/synset.txt
 
 $ wc -l synset.txt
     1000 synset.txt
@@ -87,8 +115,6 @@ wget -O image0.jpeg https://cdn-images-1.medium.com/max/1600/1*sPdrfGtDd_6RQfYvD
 wget -O image1.jpeg http://kidszoo.org/wp-content/uploads/2015/02/clownfish3-1500x630.jpg
 ```
 
-__Note:__ if your compute resource is defaulting an IPv6 download, and the connection is simply taking too long (or not starting), then you can always force __wget__ to use IPv4 by appending the __-4__ parameter.
-
 ### Loading the model for use
 
 Open your python shell,
@@ -98,7 +124,7 @@ python
 >>>
 ```
 
-Load the model from its saved state. MXNet calls this a checkpoint. In return, we get the input Symbol and the model parameters.
+Load the model from its saved state - note that this first call may take a number of seconds to complete. MXNet calls this a checkpoint. In return, we get the input Symbol and the model parameters.
 
 ```python
 import mxnet as mx
@@ -120,9 +146,9 @@ Define the shape of ‘data’ as 1 x 3 x 224 x 224.
 mod.bind(for_training=False, data_shapes=[('data', (1,3,224,224))])
 ```
 
-‘224 x 224’ is the image resolution, that’s how the model was trained. ‘3’ is the number of channels : red, green and blue (in this order). ‘1’ is the batch size: we’ll predict one image at a time.
+‘224 x 224’ is the image resolution, that’s how the model was trained. ‘3’ is the number of channels : red, green and blue (in this order). ‘1’ is the batch size: we’ll predict one image at a time.  You may get an error around label-names - you can ignore this.
 
-set the model parameters.
+Set the model parameters.
 
 ```python
 mod.set_params(arg_params, aux_params)
@@ -217,7 +243,7 @@ Now we can pass this “batch” to the model and let it predict.
 mod.forward(Batch([array]))
 ```
 
-The model will output an NDArray holding the 1000 probabilities, corresponding to the 1000 categories. It has only one line since batch size is equal to 1.
+This may give a *malloc* message - ignore it.  The model will output an NDArray holding the 1000 probabilities, corresponding to the 1000 categories. It has only one line since batch size is equal to 1.
 
 ```python
 prob = mod.get_outputs()[0].asnumpy()
@@ -297,15 +323,15 @@ Published in 2015, ResNet-152 is a model built from 152 layers (research paper).
 Time to visit the model zoo once again. Just like for Inception v3, we need to download model definitions and parameters. All three models have been trained on the same categories, so we can reuse our synset.txt file.
 
 ```bash
-$ wget http://data.dmlc.ml/models/imagenet/vgg/vgg16-symbol.json
+$ wget http://data.mxnet.io/models/imagenet/vgg/vgg16-symbol.json
 ```
 
 __NOTE:__ You'll need to edit this file and swap ```prob_label``` and ```prob``` to ```softmax_label``` and ```softmax``` respectively
 
 ```bash
-$ wget http://data.dmlc.ml/models/imagenet/vgg/vgg16-0000.params
+$ wget http://data.mxnet.io/models/imagenet/vgg/vgg16-0000.params
 
-$ wget http://data.dmlc.ml/models/imagenet/resnet/152-layers/resnet-152-symbol.json
+$ wget http://data.mxnet.io/models/imagenet/resnet/152-layers/resnet-152-symbol.json
 
-$ wget http://data.dmlc.ml/models/imagenet/resnet/152-layers/resnet-152-0000.params
+$ wget http://data.mxnet.io/models/imagenet/resnet/152-layers/resnet-152-0000.params
 ```
