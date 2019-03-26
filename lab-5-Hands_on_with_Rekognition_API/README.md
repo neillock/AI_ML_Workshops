@@ -1,16 +1,17 @@
 ![Workshops](../banners/aws.png)  ![Workshops](images/rekognition.png)
-**Last Updated:** December 2018
+**Last Updated:** March 2019
+
 # Hands on with the Amazon Rekognition API
 
 ### Requirements
 
-- AWS Account
+- AWS Account with local access credentials
 - AWS CLI tools installed
 - python + boto3 + some python skills
 
 ## Why Amazon Rekognition?
 
-Earlier we looked at image recognition using Apache MXNet and we analysed an image of a rock guitarist. In order to do that we had to prepare the data, this takes time when dealing with thousands or millions of images. Rekognition does this for you automatically. The screen shot below shows the same image processed by rekognition.
+A different AI/ML in this series looked at image recognition using Apache MXNet and we analysed an image of a rock guitarist - see [here](<https://github.com/drandrewkane/AI_ML_Workshops/blob/master/lab-3-Hands_on_with_Apache_MXNet>). In order to do that we had to prepare the data, this takes time when dealing with thousands or millions of images. Rekognition does this for you automatically. The screen shot below shows the same image processed by rekognition.
 
 ![demo0.png](demo0.png)
 
@@ -20,12 +21,12 @@ As you can see AWS has already done the heavy lifting of data preparation for yo
 
 To start with let's look at the AWS CLI for Rekognition, we'll want a few sample images, ones you can use easily are from this repository, but feel free to subsitute with your own.
 
-Create a public S3 bucket and upload the sample images.
+Create an S3 bucket and upload the sample images - we are using photos of one our Evangelists, Ric Harvey, but you could use any photo sets that you like.
 
-First of all lets scan a picture to find a face:
+First of all lets scan a picture to find a face - note, use your bucket name, not literally *YOURBUCKETNAME*:
 
 ```bash
-aws rekognition detect-faces --image "S3Object={Bucket="image-demo-lab", Name="ric_harvey.jpeg"}"
+aws rekognition detect-faces --image "S3Object={Bucket="YOURBUCKETNAME", Name="ric_harvey.jpeg"}"
 ```
 The output of this shows there is indeed a face detected, and you can see details on the Landmarks it used to detect the face and its confidence.
 
@@ -34,428 +35,462 @@ The output of this shows there is indeed a face detected, and you can see detail
     "FaceDetails": [
         {
             "BoundingBox": {
-                "Width": 0.45778611302375793,
-                "Height": 0.3050000071525574,
-                "Left": 0.2739211916923523,
-                "Top": 0.1693750023841858
+                "Width": 0.3238965570926666,
+                "Top": 0.1666368991136551,
+                "Left": 0.33553096652030945,
+                "Height": 0.3074423372745514
             },
             "Landmarks": [
                 {
-                    "Type": "eyeLeft",
-                    "X": 0.42861831188201904,
-                    "Y": 0.28512176871299744
+                    "Y": 0.2876920998096466,
+                    "X": 0.4322119653224945,
+                    "Type": "eyeLeft"
                 },
                 {
-                    "Type": "eyeRight",
-                    "X": 0.572612464427948,
-                    "Y": 0.28403761982917786
+                    "Y": 0.2862488329410553,
+                    "X": 0.5742876529693604,
+                    "Type": "eyeRight"
                 },
                 {
-                    "Type": "nose",
-                    "X": 0.5114457607269287,
-                    "Y": 0.3355158865451813
+                    "Y": 0.3933376669883728,
+                    "X": 0.45016252994537354,
+                    "Type": "mouthLeft"
                 },
                 {
-                    "Type": "mouthLeft",
-                    "X": 0.44752469658851624,
-                    "Y": 0.39533865451812744
+                    "Y": 0.3922717273235321,
+                    "X": 0.5671025514602661,
+                    "Type": "mouthRight"
                 },
                 {
-                    "Type": "mouthRight",
-                    "X": 0.5687991976737976,
-                    "Y": 0.39315375685691833
+                    "Y": 0.3384993076324463,
+                    "X": 0.508313000202179,
+                    "Type": "nose"
                 }
             ],
             "Pose": {
-                "Roll": -1.3944040536880493,
-                "Yaw": 4.856456279754639,
-                "Pitch": 7.715858459472656
+                "Yaw": 1.473808765411377,
+                "Roll": -2.1248180866241455,
+                "Pitch": -3.9496753215789795
             },
             "Quality": {
-                "Brightness": 33.98454666137695,
-                "Sharpness": 99.9945297241211
+                "Sharpness": 89.85481262207031,
+                "Brightness": 84.628662109375
             },
-            "Confidence": 99.9999771118164
+            "Confidence": 100.0
         }
-    ],
-    "OrientationCorrection": "ROTATE_0"
+    ]
 }
 ```
 However in most cases you don't want to just find a face you want some information about that face, gender and defining features, maybe the sentiment. We can do this by calling __detect-labels__.
 
 ```bash
-aws rekognition detect-labels --image "S3Object={Bucket="image-demo-lab", Name="ric_harvey.jpeg"}"
+aws rekognition detect-labels --image "S3Object={Bucket="YOURBUCKETNAME", Name="ric_harvey.jpeg"}"
 ```
 
-The resulting output determines that Ric is, indeed, human.
+The resulting output determines that Ric is, indeed, human - we've removed some of the output JSON for the sake of clarity:
 
 ```json
 {
+    "LabelModelVersion": "2.0",
     "Labels": [
         {
+            "Confidence": 97.83240509033203,
+            "Instances": [],
             "Name": "Human",
-            "Confidence": 99.31964874267578
+            "Parents": []
         },
         {
-            "Name": "People",
-            "Confidence": 99.31964874267578
-        },
-        {
+            "Confidence": 97.83240509033203,
+            "Instances": [
+                {
+                    "BoundingBox": { <removed> },
+                    "Confidence": 97.83240509033203
+                }
+            ],
             "Name": "Person",
-            "Confidence": 99.31964874267578
+            "Parents": []
         },
         {
+            "Confidence": 96.00078582763672,
+            "Instances": [],
+            "Name": "Clothing",
+            "Parents": []
+        },
+        {
+            "Confidence": 96.00078582763672,
+            "Instances": [],
+            "Name": "Apparel",
+            "Parents": []
+        },
+         {
+            "Confidence": 96.00078582763672,
+            "Instances": [
+                {
+                    "BoundingBox": { <removed> }
+                    "Confidence": 96.00078582763672
+                }
+            ],
+            "Name": "Sweater",
+            "Parents": [
+                {
+                    "Name": "Clothing"
+                }
+            ]
+        },
+       {
+            "Confidence": 95.15144348144531,
+            "Instances": [],
             "Name": "Man",
-            "Confidence": 75.68144226074219
+            "Parents": [
+                {
+                    "Name": "Person"
+                }
+            ]
         },
         {
-            "Name": "Face",
-            "Confidence": 61.79734420776367
-        },
-        {
-            "Name": "Portrait",
-            "Confidence": 56.22377395629883
-        },
-        {
-            "Name": "Dimples",
-            "Confidence": 51.63166046142578
+            "Confidence": 67.18626403808594,
+            "Instances": [],
+            "Name": "Sleeve",
+            "Parents": [
+                {
+                    "Name": "Clothing"
+                }
+            ]
         }
-    ],
-    "OrientationCorrection": "ROTATE_0"
+    ]
 }
 ```
+
+In a recent upgrade to the Rekognition model AWS introduced the idea of *parent* objects - in this example for Ric, the label *Man* links back to the object for *Person*, and *Sleeve* links back to *Clothing*.
 
 So if we can find faces in images and identify key objects about that face we should be able to compare faces and find the same person in multiple photos. Heres an example using __compare-faces__.
 
 ```bash
-aws rekognition compare-faces --source-image '{"S3Object":{"Bucket":"image-demo-lab","Name":"ric_harvey.jpeg"}}' --target-image '{"S3Object":{"Bucket":"image-demo-lab","Name":"ric.jpg"}}'
+aws rekognition compare-faces --source-image '{"S3Object":{"Bucket":"YOURBUCKETNAME","Name":"ric_harvey.jpeg"}}' --target-image '{"S3Object":{"Bucket":"YOURBUCKETNAME","Name":"ric.jpg"}}'
 ```
 
-In the first example we have a match.
+In the first example we have a match - we are 100% confident that we have found a face in both images, and then 99.27% confident that they match.  We're pretty confident that this is Ric.
 
 ```json
 {
-    "SourceImageFace": {
-        "BoundingBox": {
-            "Width": 0.45778611302375793,
-            "Height": 0.3050000071525574,
-            "Left": 0.2739211916923523,
-            "Top": 0.1693750023841858
-        },
-        "Confidence": 99.9999771118164
-    },
+    "UnmatchedFaces": [],
     "FaceMatches": [
         {
-            "Similarity": 88.0,
             "Face": {
                 "BoundingBox": {
-                    "Width": 0.5841526985168457,
-                    "Height": 0.5870445370674133,
-                    "Left": 0.22267206013202667,
-                    "Top": 0.1069982647895813
+                    "Width": 0.41572150588035583,
+                    "Top": 0.12303049862384796,
+                    "Left": 0.316993772983551,
+                    "Height": 0.6135206818580627
                 },
                 "Confidence": 100.0,
-                "Landmarks": [
-                    {
-                        "Type": "eyeLeft",
-                        "X": 0.4296815097332001,
-                        "Y": 0.3233932554721832
-                    },
-                    {
-                        "Type": "eyeRight",
-                        "X": 0.6151635646820068,
-                        "Y": 0.3312254250049591
-                    },
-                    {
-                        "Type": "nose",
-                        "X": 0.5194208025932312,
-                        "Y": 0.4376829266548157
-                    },
-                    {
-                        "Type": "mouthLeft",
-                        "X": 0.4202229976654053,
-                        "Y": 0.5286720395088196
-                    },
-                    {
-                        "Type": "mouthRight",
-                        "X": 0.6185688972473145,
-                        "Y": 0.533376157283783
-                    }
-                ],
                 "Pose": {
-                    "Roll": 2.0403640270233154,
-                    "Yaw": -0.9170446395874023,
-                    "Pitch": 7.417059421539307
+                    "Yaw": 0.6714985966682434,
+                    "Roll": -0.0029848809354007244,
+                    "Pitch": 0.6671947240829468
                 },
                 "Quality": {
-                    "Brightness": 31.274736404418945,
-                    "Sharpness": 99.99880981445312
-                }
-            }
+                    "Sharpness": 78.64350128173828,
+                    "Brightness": 50.17827606201172
+                },
+                "Landmarks": [
+                    {
+                        "Y": 0.33426931500434875,
+                        "X": 0.42318251729011536,
+                        "Type": "eyeLeft"
+                    },
+                    {
+                        "Y": 0.33917325735092163,
+                        "X": 0.6163105368614197,
+                        "Type": "eyeRight"
+                    },
+                    {
+                        "Y": 0.5411261916160583,
+                        "X": 0.4390724301338196,
+                        "Type": "mouthLeft"
+                    },
+                    {
+                        "Y": 0.5456682443618774,
+                        "X": 0.5989208221435547,
+                        "Type": "mouthRight"
+                    },
+                    {
+                        "Y": 0.44001856446266174,
+                        "X": 0.5190205574035645,
+                        "Type": "nose"
+                    }
+                ]
+            },
+            "Similarity": 99.27263641357422
         }
     ],
-    "UnmatchedFaces": [],
-    "SourceImageOrientationCorrection": "ROTATE_0",
-    "TargetImageOrientationCorrection": "ROTATE_0"
+    "SourceImageFace": {
+        "BoundingBox": {
+            "Width": 0.3238965570926666,
+            "Top": 0.1666368991136551,
+            "Left": 0.33553096652030945,
+            "Height": 0.3074423372745514
+        },
+        "Confidence": 100.0
+    }
 }
 ```
 
 However lets look at a picture with more than one person in it.
 
 ```bash
-aws rekognition compare-faces --source-image '{"S3Object":{"Bucket":"image-demo-lab","Name":"ric_harvey.jpeg"}}' --target-image '{"S3Object":{"Bucket":"image-demo-lab","Name":"ric_crowd1.jpg"}}'
+aws rekognition compare-faces --source-image '{"S3Object":{"Bucket":"YOURBUCKETNAME","Name":"ric_harvey.jpeg"}}' --target-image '{"S3Object":{"Bucket":"YOURBUCKETNAME","Name":"ric_crowd1.jpg"}}'
 ```
 
-The output from this shows 1 matched face and several unmatched faces.
+The output from this shows 1 matched face in the *FaceMatches* section, and several unmatched faces in the *UnmatchedFaces* section - however, you do get useful metadata about every face that have been picked out.  Rekognition gives 98.74% similarity rating for the matched face, and that's despite the image being slightly blurry and with poor lighting.
 
 ```json
 {
-    "SourceImageFace": {
-        "BoundingBox": {
-            "Width": 0.45778611302375793,
-            "Height": 0.3050000071525574,
-            "Left": 0.2739211916923523,
-            "Top": 0.1693750023841858
-        },
-        "Confidence": 99.9999771118164
-    },
-    "FaceMatches": [
-        {
-            "Similarity": 90.0,
-            "Face": {
-                "BoundingBox": {
-                    "Width": 0.22687500715255737,
-                    "Height": 0.30250000953674316,
-                    "Left": 0.2524999976158142,
-                    "Top": 0.3891666531562805
-                },
-                "Confidence": 99.95853424072266,
-                "Landmarks": [
-                    {
-                        "Type": "eyeLeft",
-                        "X": 0.3539683222770691,
-                        "Y": 0.4969490170478821
-                    },
-                    {
-                        "Type": "eyeRight",
-                        "X": 0.4162258207798004,
-                        "Y": 0.5343121886253357
-                    },
-                    {
-                        "Type": "nose",
-                        "X": 0.3986102342605591,
-                        "Y": 0.5785834193229675
-                    },
-                    {
-                        "Type": "mouthLeft",
-                        "X": 0.32881030440330505,
-                        "Y": 0.616106390953064
-                    },
-                    {
-                        "Type": "mouthRight",
-                        "X": 0.37624654173851013,
-                        "Y": 0.6475170850753784
-                    }
-                ],
-                "Pose": {
-                    "Roll": 21.32535171508789,
-                    "Yaw": 33.83676528930664,
-                    "Pitch": 12.081502914428711
-                },
-                "Quality": {
-                    "Brightness": 22.441940307617188,
-                    "Sharpness": 99.95819854736328
-                }
-            }
-        }
-    ],
     "UnmatchedFaces": [
         {
             "BoundingBox": {
-                "Width": 0.3474999964237213,
-                "Height": 0.4633333384990692,
-                "Left": 0.71875,
-                "Top": 0.5108333230018616
+                "Width": 0.23272210359573364,
+                "Top": 0.510046124458313,
+                "Left": 0.7415141463279724,
+                "Height": 0.4028888940811157
             },
-            "Confidence": 99.98457336425781,
-            "Landmarks": [
-                {
-                    "Type": "eyeLeft",
-                    "X": 0.8321326971054077,
-                    "Y": 0.694943368434906
-                },
-                {
-                    "Type": "eyeRight",
-                    "X": 0.9426370859146118,
-                    "Y": 0.7011836767196655
-                },
-                {
-                    "Type": "nose",
-                    "X": 0.8815482258796692,
-                    "Y": 0.767633855342865
-                },
-                {
-                    "Type": "mouthLeft",
-                    "X": 0.8442646265029907,
-                    "Y": 0.8384411334991455
-                },
-                {
-                    "Type": "mouthRight",
-                    "X": 0.9513602256774902,
-                    "Y": 0.8438958525657654
-                }
-            ],
+            "Confidence": 99.99987030029297,
             "Pose": {
-                "Roll": 2.4253525733947754,
-                "Yaw": -8.93567180633545,
-                "Pitch": 5.809824466705322
+                "Yaw": -23.619752883911133,
+                "Roll": -5.818271636962891,
+                "Pitch": 9.376426696777344
             },
             "Quality": {
-                "Brightness": 15.722269058227539,
-                "Sharpness": 99.95819854736328
-            }
+                "Sharpness": 53.330047607421875,
+                "Brightness": 29.453981399536133
+            },
+            "Landmarks": [
+                {
+                    "Y": 0.6929454803466797,
+                    "X": 0.8373074531555176,
+                    "Type": "eyeLeft"
+                },
+                {
+                    "Y": 0.6977059245109558,
+                    "X": 0.945943295955658,
+                    "Type": "eyeRight"
+                },
+                {
+                    "Y": 0.8433666229248047,
+                    "X": 0.8459407687187195,
+                    "Type": "mouthLeft"
+                },
+                {
+                    "Y": 0.8482340574264526,
+                    "X": 0.93607497215271,
+                    "Type": "mouthRight"
+                },
+                {
+                    "Y": 0.7731311917304993,
+                    "X": 0.8804974555969238,
+                    "Type": "nose"
+                }
+            ]
         },
         {
             "BoundingBox": {
-                "Width": 0.48750001192092896,
-                "Height": 0.6499999761581421,
-                "Left": -0.10125000029802322,
-                "Top": 0.3499999940395355
+                "Width": 0.12664306163787842,
+                "Top": 0.4119572043418884,
+                "Left": 0.48019713163375854,
+                "Height": 0.24227945506572723
             },
-            "Confidence": 96.41242980957031,
-            "Landmarks": [
-                {
-                    "Type": "eyeLeft",
-                    "X": 0.08621729910373688,
-                    "Y": 0.6087729334831238
-                },
-                {
-                    "Type": "eyeRight",
-                    "X": 0.23481208086013794,
-                    "Y": 0.6346983313560486
-                },
-                {
-                    "Type": "nose",
-                    "X": 0.2088991105556488,
-                    "Y": 0.7378349304199219
-                },
-                {
-                    "Type": "mouthLeft",
-                    "X": 0.08538326621055603,
-                    "Y": 0.8273465037345886
-                },
-                {
-                    "Type": "mouthRight",
-                    "X": 0.21713919937610626,
-                    "Y": 0.842521071434021
-                }
-            ],
+            "Confidence": 99.99998474121094,
             "Pose": {
-                "Roll": 5.360462188720703,
-                "Yaw": 30.094144821166992,
-                "Pitch": 5.545968055725098
+                "Yaw": 4.041987419128418,
+                "Roll": 3.3684937953948975,
+                "Pitch": -20.516826629638672
             },
             "Quality": {
-                "Brightness": 14.225797653198242,
-                "Sharpness": 99.99090576171875
-            }
+                "Sharpness": 38.89601135253906,
+                "Brightness": 26.469314575195312
+            },
+            "Landmarks": [
+                {
+                    "Y": 0.5068619847297668,
+                    "X": 0.5267886519432068,
+                    "Type": "eyeLeft"
+                },
+                {
+                    "Y": 0.5116945505142212,
+                    "X": 0.5861381888389587,
+                    "Type": "eyeRight"
+                },
+                {
+                    "Y": 0.5888504385948181,
+                    "X": 0.5275153517723083,
+                    "Type": "mouthLeft"
+                },
+                {
+                    "Y": 0.5928797125816345,
+                    "X": 0.5768627524375916,
+                    "Type": "mouthRight"
+                },
+                {
+                    "Y": 0.5561686754226685,
+                    "X": 0.5575464963912964,
+                    "Type": "nose"
+                }
+            ]
         },
         {
             "BoundingBox": {
-                "Width": 0.18687500059604645,
-                "Height": 0.24916666746139526,
-                "Left": 0.6043750047683716,
-                "Top": 0.34833332896232605
+                "Width": 0.31463298201560974,
+                "Top": 0.36742377281188965,
+                "Left": -0.010811327025294304,
+                "Height": 0.5718353986740112
             },
-            "Confidence": 99.91377258300781,
-            "Landmarks": [
-                {
-                    "Type": "eyeLeft",
-                    "X": 0.6566815972328186,
-                    "Y": 0.4502323269844055
-                },
-                {
-                    "Type": "eyeRight",
-                    "X": 0.7224865555763245,
-                    "Y": 0.43844547867774963
-                },
-                {
-                    "Type": "nose",
-                    "X": 0.6805922985076904,
-                    "Y": 0.4983518421649933
-                },
-                {
-                    "Type": "mouthLeft",
-                    "X": 0.6659459471702576,
-                    "Y": 0.532056987285614
-                },
-                {
-                    "Type": "mouthRight",
-                    "X": 0.7296943664550781,
-                    "Y": 0.5243272185325623
-                }
-            ],
+            "Confidence": 100.0,
             "Pose": {
-                "Roll": -7.166214466094971,
-                "Yaw": -19.44483757019043,
-                "Pitch": -3.4779880046844482
+                "Yaw": 25.575437545776367,
+                "Roll": 7.750082969665527,
+                "Pitch": -0.5794483423233032
             },
             "Quality": {
-                "Brightness": 30.67827606201172,
-                "Sharpness": 99.884521484375
-            }
+                "Sharpness": 73.32209777832031,
+                "Brightness": 26.861705780029297
+            },
+            "Landmarks": [
+                {
+                    "Y": 0.6168197393417358,
+                    "X": 0.09621831029653549,
+                    "Type": "eyeLeft"
+                },
+                {
+                    "Y": 0.636400043964386,
+                    "X": 0.24112087488174438,
+                    "Type": "eyeRight"
+                },
+                {
+                    "Y": 0.8429403305053711,
+                    "X": 0.09124591201543808,
+                    "Type": "mouthLeft"
+                },
+                {
+                    "Y": 0.8571742177009583,
+                    "X": 0.21000227332115173,
+                    "Type": "mouthRight"
+                },
+                {
+                    "Y": 0.7462476491928101,
+                    "X": 0.19551265239715576,
+                    "Type": "nose"
+                }
+            ]
         },
         {
             "BoundingBox": {
-                "Width": 0.16062499582767487,
-                "Height": 0.21416667103767395,
-                "Left": 0.47062501311302185,
-                "Top": 0.42750000953674316
+                "Width": 0.1486806869506836,
+                "Top": 0.31899121403694153,
+                "Left": 0.6218242049217224,
+                "Height": 0.2892136871814728
             },
-            "Confidence": 99.99253845214844,
-            "Landmarks": [
-                {
-                    "Type": "eyeLeft",
-                    "X": 0.5277988314628601,
-                    "Y": 0.5116181969642639
-                },
-                {
-                    "Type": "eyeRight",
-                    "X": 0.5793790817260742,
-                    "Y": 0.5157355070114136
-                },
-                {
-                    "Type": "nose",
-                    "X": 0.5589439868927002,
-                    "Y": 0.5528774261474609
-                },
-                {
-                    "Type": "mouthLeft",
-                    "X": 0.5237618088722229,
-                    "Y": 0.5906259417533875
-                },
-                {
-                    "Type": "mouthRight",
-                    "X": 0.5729554891586304,
-                    "Y": 0.5956164598464966
-                }
-            ],
+            "Confidence": 99.99995422363281,
             "Pose": {
-                "Roll": 2.085719585418701,
-                "Yaw": 13.388442993164062,
-                "Pitch": 8.00314712524414
+                "Yaw": -9.001951217651367,
+                "Roll": -15.084820747375488,
+                "Pitch": -0.08522148430347443
             },
             "Quality": {
-                "Brightness": 29.39847183227539,
-                "Sharpness": 99.9305191040039
-            }
+                "Sharpness": 46.02980041503906,
+                "Brightness": 36.90113067626953
+            },
+            "Landmarks": [
+                {
+                    "Y": 0.45112869143486023,
+                    "X": 0.657817542552948,
+                    "Type": "eyeLeft"
+                },
+                {
+                    "Y": 0.4396614730358124,
+                    "X": 0.7241609692573547,
+                    "Type": "eyeRight"
+                },
+                {
+                    "Y": 0.5389857888221741,
+                    "X": 0.675711452960968,
+                    "Type": "mouthLeft"
+                },
+                {
+                    "Y": 0.5303119421005249,
+                    "X": 0.7309232950210571,
+                    "Type": "mouthRight"
+                },
+                {
+                    "Y": 0.49695348739624023,
+                    "X": 0.6839836239814758,
+                    "Type": "nose"
+                }
+            ]
         }
     ],
-    "SourceImageOrientationCorrection": "ROTATE_0"
+    "FaceMatches": [
+        {
+            "Face": {
+                "BoundingBox": {
+                    "Width": 0.1646803468465805,
+                    "Top": 0.38141894340515137,
+                    "Left": 0.2834920287132263,
+                    "Height": 0.31770819425582886
+                },
+                "Confidence": 99.99987030029297,
+                "Pose": {
+                    "Yaw": 30.25555992126465,
+                    "Roll": 25.35053253173828,
+                    "Pitch": 1.6962026357650757
+                },
+                "Quality": {
+                    "Sharpness": 60.49041748046875,
+                    "Brightness": 25.469776153564453
+                },
+                "Landmarks": [
+                    {
+                        "Y": 0.4987576901912689,
+                        "X": 0.3558201193809509,
+                        "Type": "eyeLeft"
+                    },
+                    {
+                        "Y": 0.5361648201942444,
+                        "X": 0.4192109704017639,
+                        "Type": "eyeRight"
+                    },
+                    {
+                        "Y": 0.6199691295623779,
+                        "X": 0.3274959921836853,
+                        "Type": "mouthLeft"
+                    },
+                    {
+                        "Y": 0.6497430801391602,
+                        "X": 0.3787180185317993,
+                        "Type": "mouthRight"
+                    },
+                    {
+                        "Y": 0.5817705392837524,
+                        "X": 0.38942280411720276,
+                        "Type": "nose"
+                    }
+                ]
+            },
+            "Similarity": 98.74687957763672
+        }
+    ],
+    "SourceImageFace": {
+        "BoundingBox": {
+            "Width": 0.3238965570926666,
+            "Top": 0.1666368991136551,
+            "Left": 0.33553096652030945,
+            "Height": 0.3074423372745514
+        },
+        "Confidence": 100.0
+    }
 }
 ```
 
-Repeating this with __ric_crowd0.jpg__ will show no results.
+Repeating this with __ric_crowd0.jpg__ will show no results - the *FaceMatches* section is completely empty.
 
 ## Doing this from python
 
@@ -545,12 +580,39 @@ for l in labels:
         labelText = labelText + l['Name'] + ", "
 ```
 
-## Challenge 1 (Where's Ric)
+Copy and paste into a python file, such as **rekLab.py**.  You can now run this against any image that you have uploaded into your bucket, as follows:
 
-Durring registration I took some photos and uploaded them to a public S3 bucket s3://image-demo-lab there is also an array of asorted images in the bucket. Your challenge is to:
+```bash
+$ python rekLab.py YOURBUCKETNAME ric_harvey.jpeg
+```
 
-- a) find how many pictures in the bucket contain a photo of me
-- b) find your self in the images
+This code will call **detect-labels** and **detect-faces** and try and provide some intelligible output.  For instance,  if you run this against **ric_harvey.jpeg** then you should the following output:
+
+```
+Label Human, confidence: 97.8324050903
+Label Person, confidence: 97.8324050903
+Label Sweater, confidence: 96.0007858276
+Label Clothing, confidence: 96.0007858276
+Label Apparel, confidence: 96.0007858276
+Label Man, confidence: 95.151473999
+*** Face 0 detected, confidence: 100.0
+Gender: Male
+Age: 35-52
+Beard
+CALM 93.4333953857
+SURPRISED 0.905286967754
+SAD 2.43520069122
+CONFUSED 1.0990087986
+HAPPY 0.299568772316
+DISGUSTED 0.428233355284
+ANGRY 1.39930927753
+```
+
+## Challenge - Where's Ric?
+
+Durring registration at a recent AWS event we took some photos and uploaded them to a public S3 bucket **s3://image-demo-lab** there is also an array of asorted images in the bucket. Your challenge is to:
+
+- find how many pictures in the bucket contain a photo of Ric
 
 You'll need to create a compare-faces function and also get a list of all the objects in the S3 bucket (warning they may not all be images!) Extra points for the fastest way of doing this.
 
@@ -558,4 +620,5 @@ You'll need to create a compare-faces function and also get a list of all the ob
 
 [http://boto3.readthedocs.io/en/latest/reference/services/rekognition.html](http://boto3.readthedocs.io/en/latest/reference/services/rekognition.html)
 
-Let an instructor know when you've completed this - there may be a prize.
+Let an instructor know when you've completed this.
+
