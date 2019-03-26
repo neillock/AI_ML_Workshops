@@ -126,7 +126,7 @@ The resulting output determines that Ric is, indeed, human - we've removed some 
             "Confidence": 96.00078582763672,
             "Instances": [
                 {
-                    "BoundingBox": { <removed> }
+                    "BoundingBox": { <removed> },
                     "Confidence": 96.00078582763672
                 }
             ],
