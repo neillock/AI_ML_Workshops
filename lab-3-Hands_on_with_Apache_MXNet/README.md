@@ -19,7 +19,7 @@ In this workshop we are going to take a look at running Apache MXNet on the Amaz
 
 ## Running MXNet on AWS
 
-AWS provides you with the Deep Learning AMI, available both for Amazon Linux and Ubuntu - simply search for __Deep Learning AMI__ for the operating system AMI of your choice when launching an EC2 instance - remember to select the **Amazon Linux**. This AMI comes pre-installed with many Deep Learning frameworks (MXNet included), as well as all the Nvidia tools and more. No plumbing needed.
+AWS provides you with the Deep Learning AMI, available both for Amazon Linux and Ubuntu - simply search for __Deep Learning AMI__  when launching an EC2 instance, but just remember to select the **Amazon Linux**. This AMI comes pre-installed with many Deep Learning frameworks (MXNet included), as well as all the Nvidia tools and more. No plumbing needed.
 
 You can run this AMI either on a standard instance or on a GPU instance. If you want to train a model and don’t have a NVidia GPU on your machine your most inexpensive option with this AMI will be to use a *p2.xlarge* instance at $0.90 per hour.
 
@@ -146,7 +146,7 @@ Define the shape of ‘data’ as 1 x 3 x 224 x 224.
 mod.bind(for_training=False, data_shapes=[('data', (1,3,224,224))])
 ```
 
-‘224 x 224’ is the image resolution, that’s how the model was trained. ‘3’ is the number of channels : red, green and blue (in this order). ‘1’ is the batch size: we’ll predict one image at a time.  You may get an error around label-names - you can ignore this.
+‘224 x 224’ is the image resolution, that’s how the model was trained. ‘3’ is the number of channels : red, green and blue (in this order). ‘1’ is the batch size: we’ll predict one image at a time.  **Note:** You may get an error around label-names - you can ignore this.
 
 Set the model parameters.
 

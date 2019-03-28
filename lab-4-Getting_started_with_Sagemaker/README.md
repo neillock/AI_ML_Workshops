@@ -49,8 +49,8 @@ This lab is designed to demonstrate how to run the Amazon Deep Learning AMI usin
 4. To download all the lab files and supporting file execute the following commands
 
 ```bash
-cd sample-notebooks/
-wget wget https://s3.amazonaws.com/sa-imd/sa_ml_lab.tar.gz
+cd SageMaker
+wget https://s3.amazonaws.com/sa-imd/sa_ml_lab.tar.gz
 ```
 
 5. Once the download is complete, extract the files by typing
@@ -59,27 +59,23 @@ wget wget https://s3.amazonaws.com/sa-imd/sa_ml_lab.tar.gz
 tar xf sa_ml_lab.tar.gz
 ```
 
-6. Close this window, go to the previous browser tab, and click on the **SageMaker Examples** tab.  Scroll down to the **MI Labs** section.  You should now see the following 3 note books available for use:
+6. Close this window, go to the previous browser tab, ensure that you are on the **Files** tab, and go into the **ml_labs** folder and you should see the following 3 note books available for use:
 
 - Sentiment\_MLP\_MXNet.ipynb
 - Sentiment\_CNN\_MXNet.ipynb
 - time-series-lstm.ipynb
 
-![ML Labs list](images/Picture06.png)
+![Files list in ml_labs](images/Picture06.png)
 
-7. We will start by looking at the notebook for Sentiment Analysis using Convolutional Neural Networks in the MXNet framework _Sentiment\_CNN\_MXNet.ipynb_.  Click on the **Preview** button to preview the entire lab in a new window, but click the **Use** button to activate it.
-
-![Create home copy](images/Picture07.png)
-
-8. A dialog will appear that will show a long list of files to be copied – scroll down and click the **Create copy** button. This will automatically open this notebook.
+7. We will start by looking at the notebook for Sentiment Analysis using Convolutional Neural Networks in the MXNet framework _Sentiment\_CNN\_MXNet.ipynb_.  Click on the notebook filename, which will automtically open that notebook in a new window.
 
 ![Notebook opened](images/Picture08.png)
 
-9. Switch back to the previous window and select the **Files** tab, then the **ml\_labs\_{date}** folder that the previous step created.  This will show that all 3 notebooks have been downloaded, along with all associated data, but that only the Convolutional Neural Network notebook is open.  If you select the other two then they will be opened in their own window.
+8. Switch back to the previous window  - you will see that only the Convolutional Neural Network notebook is open, as indicaed by the green icon.  If you select the other two then they will be opened in their own windows.
 
 ![Show opened notebooks](images/Picture09.png)
 
-10. Go to the Convolutional Neural Network tab and change the kernel to _&quot;Environment (conda\_mxnet\_p27)&quot;._
+9. Go to the Convolutional Neural Network tab and change the kernel to _&quot;Environment (conda\_mxnet\_p27)&quot;._
 
 ![Choose conda_mxnet_p27](images/Picture10.png)
 

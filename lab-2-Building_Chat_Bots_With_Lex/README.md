@@ -1,5 +1,6 @@
 ![Workshops](../banners/aws.png)  ![Workshops](images/lex.png)  
-**Last Updated:** December 2018
+**Last Updated:** March 2019
+
 # Building Chatbots with Amazon Lex
 
 ## Overview
@@ -46,7 +47,7 @@ The form should now look as follows, noting that we&#39;re going to accept the d
 
 13. Next we define a slot which is information we need to process the users request. This information can be included in the utterance (query) that the user types or says, and if not included, Lex will prompt the user for the information. While Lex includes many built-in slot types (such as number, colour, city, food, etc), in this case we want to define a custom slot to get the account type that the user is referring to.
 
-	Click on the blue &quot;+&quot; sign next to &quot;Slot types&quot; on the left hand side of the screen and select the &quot;Create slot type&quot; link
+	Click on the blue &quot;+&quot; sign next to &quot;Slot types&quot; on the left hand side of the screen and select the &quot;Create slot type&quot; link - note, "Slot types" is initially greyed out, and on some laptop screens may not be obvious
 
 ![Add slot type](images/Picture05.png)
 
