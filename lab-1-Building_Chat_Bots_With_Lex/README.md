@@ -15,7 +15,7 @@ Amazon Lex is a service for building conversational interfaces into any applicat
 # Step 1: Create the bot
 
 1. Log in to the [AWS console](https://console.aws.amazon.com/lex/home) and navigate to the Amazon Lex service
-2. **Please ensure you have selected North Virginia as the region in the top right (Amazon Connect is not available in all regions yet)
+2. **Please ensure you have selected North Virginia as the region in the top right (Amazon Connect is not available in all regions yet)**
 3. If you have never created a bot, click &quot;Get Started&quot;
 4. Choose &quot;Custom bot&quot;, which will display a dialog asking you to defined your bot
 5. Our bot name will be &quot;PersonalBanker&quot;
