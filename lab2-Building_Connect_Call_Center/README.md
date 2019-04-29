@@ -122,20 +122,26 @@ In the above example after introducing the Lex bot the customer is now actually 
 These are all phrases which the user might say in order to invoke the Call Center Agent. 
 
 3. We are also going to add the utterance:
+   
    -_one_
 
    Adding this utterance will allow the customer to engage with our Lex Bot via the keypad as well (ie we can tell the customer to say "Speak to Advisor or Press 1 on the keypad")
 
+Your utterences should now look like this:
+![Phone numbers edit](images/Picture17.png)
+
 4. Click 'Build' at the top.
 5. At this point we should modify the GetBalanceCheck Intent to also add the utterance:
+
+
   - _two_ 
   
   for the same reason as above.
 
-  6. Now we need to add the intent to our Connect Workflow. Head to your workflow and click on Get Customer Input Flow. Click on "Add another intent" and type Advisor.
+  1. Now we need to add the intent to our Connect Workflow. Head to your workflow and click on Get Customer Input Flow. Click on "Add another intent" and type Advisor.
    ![Phone numbers edit](images/Picture15.png)
 
-7. Click Save & publish and recall your contact center. You can now either ask for an advisor or press 1 on your keypad.
+6. Click Save & publish and recall your contact center. You can now either ask for an advisor or press 1 on your keypad.
 
 # Step 5: Interacting with your user based on their dialer number
 
