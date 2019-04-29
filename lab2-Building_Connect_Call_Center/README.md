@@ -38,11 +38,11 @@ Amazon Connect is based around creating workflows, these are highly customisable
 and then looking at 'Sample inbound flow (first call experience)'. There is a LOT going on in this workflow so we are going to create our own simple flow.
 
 2. Head back to the 'Contact Flows' section listed above and in the top right click on 'Create contact flow'.
-3. We are going to import a pre made 'Simple workflow' download the following [Simple Workflow](./Simple_Workflow).
+3. We are going to import a pre made 'Simple workflow' download the following zip file and extract it on your computer [Simple Workflow](https://s3-eu-west-1.amazonaws.com/connect-lex-lab/Workflows.zip).
 4. In the top right click on the down arrow next to the "Save" button and click Import Flow (beta).
 ![ContactFlows](images/Picture03.png)
 
-5. Browse and find the file labelled Simple Workflow
+5. Browse and find the file labelled Simple Workflow 
 6. Once the workflow is uploaded you will see the following Work Flow:
    ![Simpleflow](images/Picture04.png)
 
