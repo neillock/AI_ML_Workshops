@@ -1,9 +1,6 @@
 const AWS = require('aws-sdk');
 
-const sns = new AWS.SNS();
-
 // Route the incoming request based on intent.
-
 const accounts = [
   {
     type: 'current',
@@ -11,7 +8,7 @@ const accounts = [
     balance: '134.12',
   },
   {
-    type: 'savings',
+    type: 'saving',
     pinNumber: '1234',
     balance: '154.12',
   },
@@ -23,36 +20,6 @@ const getAccount = (type, pinNumber) => {
   && account.pinNumber === pinNumber);
   return result;
 };
-
-/* const balanceIntent = (intentRequest, callback) => {
-  const { slots } = intentRequest.currentIntent;
-  const sessionAttributes = { ...intentRequest.sessionAttributes, ...slots };
-  const account = getAccount(slots.AccountType, slots.PinNumber);
-
-  if (sessionAttributes.PhoneNumber && slots.SendSMS === null) {
-    callback(elicitSlot(sessionAttributes, 'BalanceCheck', slots, 'SendSMS', {
-      contentType: 'PlainText',
-      content: 'Do you want us to text you your balance?',
-    }));
-  } else {
-    if (sessionAttributes.PhoneNumber && slots.SendSMS === 'yes') {
-      const params = {
-        Message: `You have £${account.balance} in your account`,
-        MessageStructure: 'string',
-        PhoneNumber: sessionAttributes.PhoneNumber,
-      };
-
-      sns.publish(params, (err, data) => {
-        if (err) console.log(err, err.stack); // an error occurred
-        else console.log(data); // successful response
-      });
-    }
-    callback(close(sessionAttributes, 'Fulfilled', {
-      contentType: 'PlainText',
-      content: `You have £${account.balance} in your account`,
-    }));
-  }
-}; */
 
 const balanceIntent = (intentRequest, callback) => {
   const { slots } = intentRequest.currentIntent;
@@ -77,9 +44,9 @@ const balanceIntentError = (intentRequest, callback) => {
   const sessionAttributes = { ...intentRequest.sessionAttributes, ...slots };
   const account = getAccount(slots.AccountType, slots.PinNumber);
   callback(close(sessionAttributes, 'Fulfilled', {
-      contentType: 'PlainText',
-      content: `You have £${account.balance} in your account, is there anything can help you with?`,
-    }));
+    contentType: 'PlainText',
+    content: `You have £${account.balance} in your account, is there anything can help you with?`,
+  }));
 };
 
 // This a simple example to demonstrate how lambda can work with the flow
@@ -101,9 +68,9 @@ const dispatch = (intentRequest, callback) => {
   const intentName = intentRequest.currentIntent.name;
 
   if (intentName === 'GetBalanceCheck') {
-    // return simpleResponse(intentRequest, callback);
-    //return balanceIntentError(intentRequest, callback);
-    return balanceIntent(intentRequest, callback);
+    return simpleResponse(intentRequest, callback);
+    // return balanceIntentError(intentRequest, callback);
+    // return balanceIntent(intentRequest, callback);
   }
   return {};
 };

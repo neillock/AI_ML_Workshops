@@ -1,4 +1,3 @@
-![Workshops](images/lex.png)  
 **Last Updated:** April 2019
 
 # Building Chatbots with Amazon Lex
@@ -48,19 +47,24 @@ The form should now look as follows, noting that we&#39;re going to accept the d
 
 13.  Next we define a slot which is information we need to process the users request. This information can be included in the utterance (query) that the user types or says, and if not included, Lex will prompt the user for the information. While Lex includes many built-in slot types (such as number, colour, city, food, etc), in this case we want to define a custom slot to get the account type that the user is referring to.
 
-	Click on the blue &quot;+&quot; sign next to &quot;Slot types&quot; on the left hand side of the screen and select the &quot;Create slot type&quot; link - note, "Slot types" is initially greyed out, and on some laptop screens may not be obvious
+Click on the blue &quot;+&quot; sign next to &quot;Slot types&quot; on the left hand side of the screen and select the &quot;Create slot type&quot; link - note, "Slot types" is initially greyed out, and on some laptop screens may not be obvious
+![Add slot type](images/Picture05b.png)
 
+14. Click create slot type
 ![Add slot type](images/Picture05.png)
 
 14. For &#39;Slot type name&#39; enter &quot;AccountType&quot; and optionally enter a description (although description is not required)
-15. For Value, we want to allow the user to make queries against either their &quot;Saving&quot; or &quot;Current&quot; account so enter those as values, clicking the blue &quot;+&quot; sign after each word.
+    
+15. Select restrict to Slot values and Synonyms
+ 
+16. For Value, we want to allow the user to make queries against either their &quot;Saving&quot; or &quot;Current&quot; account so enter those as values, clicking the blue &quot;+&quot; sign after each word.
 
-![Create slot AccountType](images/Picture06.png)
+![Create slot AccountType](images/Picture06b.png)
 
 16. Click &quot;Add slot to intent&quot;
-17. Now that have defined what the user is going to ask via an utterance, and also defined our customer &quot;vocabularly&quot; via a slot type, we now have to additionally link the slot types to the intent with additional information such as whether it is required or not an the prompt to use if Lex has ask the user to provide it.
+17. We now have to link the slot types to the Intent with additional information such as whether it is required or not and the prompt to use (ie how Lex will ask?) Enter 'What type of account do you have (current or saving?)'.
 
-	In the existing Slot list change the &quot;Name&quot; field from &quot;slotOne&quot; to &quot;AccountType&quot; so that it matches the slot name that we specified when we created the sample utterences – note that these do not have to match, but this example will be clearer if we keep them the same.
+	In the existing Slot list change the &quot;Name&quot; field from &quot;slotOne&quot; to &quot;AccountType&quot; so that it matches the slot name that we specified when we created the sample utterences.
 
 18. Specify &quot;What type of account do you want to check (Current or Savings)?&quot; for the &quot;Prompt&quot; field. This prompt will be used by our bot if the user does not specify an account type when asking a question.
 
@@ -68,13 +72,13 @@ The form should now look as follows, noting that we&#39;re going to accept the d
 
 19.  We are now going to ask a security follow up question and ask the user to enter their four digit pin number.
 
-Add another slot and add the name as &quot;PinNumber&quot;.  Select the slot type AMAZON.FOUR_DIGIT_NUMBER and add the prompt as &quot;Please enter the last 4 digits of your {AccountType} Account card?&quot;. Ensure you click on the plus icon to add your new slot.
+Add another slot and add the name as &quot;PinNumber&quot;.  Select the slot type AMAZON.FOUR_DIGIT_NUMBER and add the prompt as &quot;what is your pin number for your {AccountType} account&quot;. Ensure you click on the plus icon to add your new slot.
 
 ![Prompt for AccountType](images/Picture08b.png)
 
 It is worth noting as you build other intents you can modify the order of the Slot collection (ie what questions get asked in which order) and also whether or not the slot is "Required" before passing the values to our external function.
 
-20. Scroll down and click &quot;Save Intent&quot;
+1.  Scroll down and click &quot;Save Intent&quot;
 
 If at any point you made a mistake in the steps above, selecting the &quot;Latest&quot; version of the intent at the top, next to the intent name, will allow you to edit your choices.
 
@@ -86,7 +90,7 @@ The build process takes approximately a minute. Once complete, you can ask your 
 
 ![TestBot](images/Picture09-testbot.png).</a>
 
-22.  It is possible to give the user a simpler interface on the bot to multiple choice questions using Response Cards. If you click on the small cog icon next to the "AccountType" slot you get the option to add a "Prompt response card". Add a title "Select your card type" and add button title Savings Account (choose value Savings) and Current Account (value Current). Click &quot;Save&quot; and rebuild and test. You will now be presented with a multiple choice option select.
+22.  It is possible to give the user a simpler interface on the bot to multiple choice questions using Response Cards. If you click on the small cog icon next to the "AccountType" slot you get the option to add a "Prompt response card". Add a title "Select your card type" and add button title Saving Account (choose value Saving) and Current Account (value Current). Click &quot;Save&quot; and rebuild and test. You will now be presented with a multiple choice option select.
 
 ![ResponseCard](images/Picture10-responsecard.png)
 
@@ -96,7 +100,7 @@ We are now in a position that we can transfer the answers to the 'slots' over to
 
 Here we will create a Lambda function that has some Javascript code to detect the intent name (&#39;GetAccountDetail&#39; and return values based on the AccountType and if the Pin number was entered correctly.
 
-In the Lambda function we have hardcoded an Array of data but in a real world example we would have authenteicated the user and would use a database lookup for the account balances.
+In the Lambda function we have hard-coded an Array of data but in a real world example we would have authenticated the user and would use a database lookup for the account balances.
 
 1. Use the AWS Console to navigate to Lambda.
 2. Click on the orange &#39;Create a function&#39; link under the &#39;Getting Started&#39; section
@@ -149,8 +153,8 @@ If you modify the lambda function and look for the line **'return simpleResponse
     //return balanceIntent(intentRequest, callback);
 ```
 
-Save your lambda function and retry the Lex bot. First off all try by choosing 'Savings' and saying the 'PinNumber' is 1234. You should now get a nice response from lex telling you of your account balance. However, at the moment your Lex box will error if you enter an incorrect PinNumber which is not helpful to the user. 
-
+Save your lambda function and retry the Lex bot. First off all try by choosing 'Saving' and saying the 'PinNumber' is 1234. You should now get a nice response from lex telling you of your account balance. However, at the moment your Lex box will error if you enter an incorrect PinNumber which is not helpful to the user. 
+![Add Lambda permission](images/Picture14.png)
 
 3. Finally we are going to add some error handling and a feedback loop to the user until a correct PinNumber is entered. The code will check to see if there is an account match and if not will request the user tries again and resets the 'Slot'.
 
@@ -161,9 +165,9 @@ If you modify the lambda function and look for the line **'return balanceIntentE
     //return balanceIntentError(intentRequest, callback);
     return balanceIntent(intentRequest, callback);
 ```
-
+![Add Lambda permission](images/Picture15.png)
 # Conclusion
 
 In this lab you have learned the basic operations to manage a Lex bot. First, you created a bot, then you defined intents and slot types. Finally you defined a Lambda function and attached it to your chatbot.
 
-We will be continuing on from this Lab in the second Lab so please do not delete the Bot you have created in this exercise.
+**NOTE We will be continuing on from this Lab in the second Lab so please do not delete the Lex Bot you have created in this exercise.**
