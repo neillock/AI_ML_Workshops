@@ -25,53 +25,52 @@ Amazon Connect is a cloud-based contact center solution which makes it easy to s
 ![Create your Connect Instance](images/Picture01.png)
 11. This may take a minute or two to setup.
 12. Once it is setup you will be presented with a screen which allows you to 'Get Started'
-13. At this point your Call Center is setup but you don't have any numbers so you need to 'Claim your first number' - For this lab chose a UK Direct Dial Number and click 'Next'
-14. This is the first number for your call center - you now can call the number and go through the default first call example that is part of Amazon Connect.
+13. At this point your Call Center is setup but you don't have any numbers so you need to 'Claim your first number' - For this lab chose a **UK Direct Dial Number** and click 'Next'
+14. This is the first number for your call center - you now can call the number and go through the default first call example that is part of Amazon Connect by ringing the number that is allocated to you.
 
 # Step 2: Create a simple workflow
 
 Amazon Connect is based around creating workflows, these are highly customisable and in this step we will create a very simple workflow to help demonstrate how to setup a call. The flow will welcome the customer and then place them in the queue for an agent
 
-1. When you create a new Connect environment you are presented with a default workflow which you can find by clicking on the 'Routing' option then 'Contact Flows' 
+1. When you create a new Connect environment you are presented with a "default workflow" which you can find by clicking on the 'Routing' option then 'Contact Flows' 
 ![ContactFlows](images/Picture02.png)
 
-and then looking at 'Sample inbound flow (first call experience)'. There is a LOT going on in this workflow so we are going to create our own simple flow.
+and then looking at 'Sample inbound flow (first call experience)'. There is a LOT going on in this workflow so we are going to create our own 'Simple flow'.
 
-2. Head back to the 'Contact Flows' section listed above and in the top right click on 'Create contact flow'.
-3. We are going to import a pre made 'Simple workflow' download the following zip file and extract it on your computer [Simple Workflow](https://s3-eu-west-1.amazonaws.com/connect-lex-lab/Workflows.zip).
-4. In the top right click on the down arrow next to the "Save" button and click Import Flow (beta).
+
+3. We are going to import a pre made 'Simple workflow'. First of all download the following zip file and extract it on your computer [Simple Workflow](https://s3-eu-west-1.amazonaws.com/connect-lex-lab/Workflows.zip).
+4.  Head back to the 'Contact Flows' section listed above and in the top right click on 'Create contact flow'.
+5. In the top right click on the down arrow next to the "Save" button and click Import Flow (beta).
 ![ContactFlows](images/Picture03.png)
 
 5. Browse and find the file labelled Simple Workflow 
 6. Once the workflow is uploaded you will see the following Work Flow:
    ![Simpleflow](images/Picture04.png)
 
-   Let's take a moment to understand what is going on with this flow. The top line of the flow diagram is configuring the flow. You can chose which Amazon voice you want the dialogue prompts to have, we have enabled call recordings to go to our S3 buckets and said that all calls will go to the default queue that is set up.
+   Let's take a moment to understand what is going on with this flow. The top line of the flow diagram is configuring the flow. You can chose which Amazon voice you want the dialogue prompts to have, we have enabled call recordings to go to our S3 buckets and said that all calls will go to the default queue that is set up when you create a call center.
 
    On the second line we create a message to say to the customer dialing in: 
 ```
    Welcome to our simple call center - thanks for calling, we are just transferring you to an agent please wait.
 ```
 
-This is completely customisable (if you click on and you can even record your own prompt.  
-
-   Following this we transfer the caller to the queue ready for an advisor.
+This is completely customisable and you can even record your own audio prompt.  Following this we transfer the caller to the queue ready for an advisor.
 
    The other items in the flow relate to what happen when an error occurs and also the end of the call.
 
-7. The Contact Flow is complete and we need to Publish it   by clicking on the arrow next to save and choosing 'Save & Publish'
+1. The Contact Flow is complete and we need to Publish it   by clicking on the arrow next to save and choosing 'Save & Publish'
    
 ![SaveAndPublish](images/Picture05.png)
 
-8. In order to associate the flow with the contact number we setup in Step 1 - chose 'Phone Numbers' from the Routing menu
+1. The flow is now created but it is not linked to the telephone number we created earlier. In order to associate the flow - chose 'Phone Numbers' from the Routing menu
    
 ![Phone numbers](images/Picture06.png)
 
-9. Click on the number where you will be presented with an Edit screen - choose Simple Workflow in the Contact flow / IVR section and click Save. 
+9. Click on the number and you will be presented with an Edit screen - choose Simple Workflow in the Contact flow / IVR section and click Save. 
 ![Phone numbers edit](images/Picture07.png)
 
-10. Now call your phone number again and see how the flow has  changed. Maybe modify the text in the Play Prompt section of the flow and Republish and call in again and see how it changes?
-11. If you want to act as a Call Agent you need to click on the phone icon in the top right of the screen and ensure you are set to 'Available'
+10.  Wait a few seconds and then call your phone number again and see how the flow has changed. Maybe modify the text in the Play Prompt section of the flow and Republish and call in again and see how it changes?
+11.   If you want to act as a Call Agent you need to click on the phone icon in the top right of the screen and ensure you are set to 'Available'
     
 ![Phone numbers edit](images/Picture08.png)
 
