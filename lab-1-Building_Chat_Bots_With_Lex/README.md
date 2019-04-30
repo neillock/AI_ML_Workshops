@@ -48,7 +48,7 @@ The form should now look as follows, noting that we&#39;re going to accept the d
 
 13.  Next we define a slot which is information we need to process the users request. This information can be included in the utterance (query) that the user types or says, and if not included, Lex will prompt the user for the information. While Lex includes many built-in slot types (such as number, colour, city, food, etc), in this case we want to define a custom slot to get the account type that the user is referring to.
 
-	Click on the blue &quot;+&quot; sign next to &quot;Slot types&quot; on the left hand side of the screen and select the &quot;Create slot type&quot; link - note, "Slot types" is initially greyed out, and on some laptop screens may not be obvious
+Click on the blue &quot;+&quot; sign next to &quot;Slot types&quot; on the left hand side of the screen and select the &quot;Create slot type&quot; link - note, "Slot types" is initially greyed out, and on some laptop screens may not be obvious
 
 ![Add slot type](images/Picture05.png)
 
@@ -130,8 +130,7 @@ To do this, we go back to the [Lex Console](https://console.aws.amazon.com/lex).
 ![Add Lambda permission](images/Picture13.png)
 
 5. Click &quot;Save intent&quot;
-6. Repeat the above steps **3, 4 and 5** for intents &quot;GetLoanDetail&quot; and &quot;GetLoanProducts&quot;
-7. Click &quot;Build&quot; and then click &quot;Build&quot; again on the confirmation screen.
+6. Click &quot;Build&quot; and then click &quot;Build&quot; again on the confirmation screen.
 
 # Step 4: Running and debugging the bot
 
