@@ -1,4 +1,4 @@
-![Workshops](../banners/aws.png)  ![Workshops](images/lex.png)  
+![Workshops](images/lex.png)  
 **Last Updated:** April 2019
 
 # Building Chatbots with Amazon Lex
@@ -165,3 +165,5 @@ If you modify the lambda function and look for the line **'return balanceIntentE
 # Conclusion
 
 In this lab you have learned the basic operations to manage a Lex bot. First, you created a bot, then you defined intents and slot types. Finally you defined a Lambda function and attached it to your chatbot.
+
+We will be continuing on from this Lab in the second Lab so please do not delete the Bot you have created in this exercise.
