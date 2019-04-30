@@ -1,7 +1,7 @@
 const callerNumbers = [
   {
-    PhoneNumber: '+447919991192',
-    CustomerName: 'Neil',
+    PhoneNumber: 'insertNumberHere in +44 format',
+    CustomerName: 'Insert Name',
   },
 ];
 

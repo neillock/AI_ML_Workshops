@@ -14,7 +14,7 @@ Amazon Connect is a cloud-based contact center solution which makes it easy to s
 
 # Step 1: Setting Up A Call Center
 
-1.  Log in to the [AWS console](https://console.aws.amazon.com/connect/home?region=us-east-1#) and navigate to the Amazon Lex service
+1.  Log in to the [AWS console](https://console.aws.amazon.com/connect/home?region=us-east-1#) and navigate to the Amazon Connect service
 2. **Please ensure you have selected North Virginia as the region in the top right (Amazon Connect is not available in all regions yet)**
 3. If you have never created a Call Center, click &quot;Get Started&quot;
 4. Enter a custom Access URL (This is a unique name so you will might need to be creative) then click 'Next Step'
