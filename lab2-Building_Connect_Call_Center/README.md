@@ -25,8 +25,11 @@ Amazon Connect is a cloud-based contact center solution which makes it easy to s
 ![Create your Connect Instance](images/Picture01.png)
 11. This may take a minute or two to setup.
 12. Once it is setup you will be presented with a screen which allows you to 'Get Started'
-13. At this point your Call Center is setup but you don't have any numbers so you need to 'Claim your first number' - For this lab chose a **UK Direct Dial Number** and click 'Next'
-14. This is the first number for your call center - you now can call the number and go through the default first call example that is part of Amazon Connect by ringing the number that is allocated to you.
+13. Your browser will pop up a warning to ask you show notifications - this is to allow the Connect Application to notify you when a call is coming in. Click allow on the pop up.
+![Create your Connect Instance](images/Picture01b.png)
+
+14. At this point your Call Center is setup but you don't have any numbers so you need to 'Claim your first number' - For this lab chose a **UK Direct Dial Number** and click 'Next'.
+15.  This is the first number for your call center - you now can call the number and go through the default first call example that is part of Amazon Connect by ringing the number that is allocated to you or click 'Skip for now'.
 
 # Step 2: Create a simple workflow
 
@@ -78,7 +81,8 @@ This is completely customisable and you can even record your own audio prompt.  
 
 We are now going to leverage the Lex Bot you built in Lab 1 within your contact flow. 
 
-1. First of all we need to give Amazon Connect permission to access your lex bot. Head to AWS Console page for your connect app and chose your Connect instance[Link](https://console.aws.amazon.com/connect/home)
+1. First of all we need to give Amazon Connect permission to access your lex bot. Head to [AWS Console](https://console.aws.amazon.com/connect/home) page for your connect app and chose your Connect instance.
+   
 2. Click on Contact flows and in the Amazon Lex section you can chose the Lex Bot you created earlier (ensure you click  + Add Lex Bot link)
 ![Phone numbers edit](images/Picture09.png)
 
@@ -92,37 +96,41 @@ We are now going to leverage the Lex Bot you built in Lab 1 within your contact 
 
 Within this edit window we are going to add a starting question (to introduce the bot) - click on 'Text to speech' and enter some text into the box below (eg "How can we help you today?").
 
-Chose Amazon Lex and select your Lex Bot from the drop down list. Finally you need to add the "Intents" you wish to allow flows from.
+Chose Amazon Lex and select your Lex Bot from the drop down list. 
 
-1. We now need to adjust the Simple workflow to introduce our Lex bot. First of all you need to remove the link between the Play Prompt and Transfer to queue. You can remove a link by hovering over the arrow and clicking on the red cross. 
+Finally you need to add the "Intents" you wish to allow flows from - add the intent "GetBalanceCheck" (this is the Intent we created in lab 1).
+
+5. We now need to adjust the Simple workflow to introduce our Lex bot. First of all you need to remove the link between the Play Prompt and Transfer to queue. You can remove a link by hovering over the arrow and clicking on the red cross. 
    ![Phone numbers edit](images/Picture13.png)
-2. Once the link has been removed we need to introduce our recently created Input. Click and hold on the circle on the Okay within Play prompt and join it to our new box. When a connection is succesfully made there will be a yellow circle at the end of the block
+
+6. Once the link has been removed we need to introduce our recently created Input. Click and hold on the circle on the Okay within Play prompt and join it to our new box. When a connection is successfully made there will be a yellow circle at the end of the block
     ![Phone numbers edit](images/Picture12.png)
 
-3. We now have the input flow but we need to connect the output of the Input. If you join the "Default" option to the "Transfer to Queue" block and the other two options to "Disconnect / Hang Up". 
+7. We now have the input flow but we need to connect the output of the Input. If you join the "Default" option to the "Transfer to Queue" block and the other two options to "Disconnect / Hang Up". 
    
-4. At this point if you click 'Save & Publish' and then try redialing your number you will be presented with a new option. If you respond to the question "How can we help you today?" with the phrase "I'd like to check my balance" you will now enter your Lex bot flow you built in Lab 1.
+8. At this point if you click 'Save & Publish' and then try redialing your number you will be presented with a new option. If you respond to the question "How can we help you today?" with the phrase "I'd like to check my balance" you will now enter your Lex bot flow you built in Lab 1.
 
 # Step 4: Improving your Call flows
 
-In the above example after introducing the Lex bot the customer is now actually unable to speak to an advisor as they can only get the balance of their account. In order to create a route back to the agent we need to go back to edit the Lex bot we created in Lab 1 and create a new Intent. a
+In the above example after introducing the Lex bot our customer is now actually unable to speak to an advisor as they can only get the balance of their account. 
 
-1. Head back to the Lex bot you created in Lab 1 [AWS console](https://console.aws.amazon.com/lex/home. Click on the + symbol next to Intents and add a new intent called "Advisor"
+In order to create a flow back to an advisor we need to go back to edit the Lex bot we created in Lab 1 and create a new Intent that listens for "Speak to an advisor" 
+
+1. Head back to the Lex bot you created in Lab 1 [AWS console](https://console.aws.amazon.com/lex/home). Click on the + symbol next to Intents and add a new intent called "Advisor"
  ![Phone numbers edit](images/Picture14.png).
 
- 2. Add the following utterances: 
+2. Add the following utterances: 
    
  -  _advisor_
  -  _talk_
  -  _talk to someone_
  -  _talk to advisor_
   
-
-These are all phrases which the user might say in order to invoke the Call Center Agent. 
+  These are all phrases which the user might say in order to invoke the Call Center Advisor (feel free to add any others you can think of). 
 
 3. We are also going to add the utterance:
    
-   -_one_
+- _one_
 
    Adding this utterance will allow the customer to engage with our Lex Bot via the keypad as well (ie we can tell the customer to say "Speak to Advisor or Press 1 on the keypad")
 
@@ -130,33 +138,52 @@ Your utterences should now look like this:
 ![Phone numbers edit](images/Picture17.png)
 
 4. Click 'Build' at the top.
-5. At this point we should modify the GetBalanceCheck Intent to also add the utterance:
+5. At this point we should also modify the GetBalanceCheck Intent to also add the utterance:
 
 
   - _two_ 
   
   for the same reason as above.
 
-  1. Now we need to add the intent to our Connect Workflow. Head to your workflow and click on Get Customer Input Flow. Click on "Add another intent" and type Advisor.
+6. Now we need to add the intent to our Connect Workflow. Head to your workflow and click on Get Customer Input Flow. Click on "Add another intent" and type Advisor.
+
+
    ![Phone numbers edit](images/Picture15.png)
 
-6. Click Save & publish and recall your contact center. You can now either ask for an advisor or press 1 on your keypad.
+7. Having added an additional Intent this is now added to the Workflow.
+   
+![Phone numbers edit](images/Picture15b.png)
+
+You will want to join the arrow from the "Advisor" intent into the transfer to queue flow option.
+
+![Phone numbers edit](images/Picture15c.png)
+   
+8. Click Save & publish and recall your contact center. You can now either ask for an advisor (or press 1) on your keypad or continue on with the Lex flow you built earlier by selecting 2.
 
 # Step 5: Interacting with your user based on their dialer number
 
 When a customer calls Amazon Connect the service has access to the caller number so it is possible to build  functionality to  personally greet the user when they dial in using Lambda. This section is slightly less guided as it extends on a lot of the topics already covered.
 
 1. Create a new Lambda function named &quot;myPersonalResponder&quot; 
-2. Open the lambda function code you will find [here](./myPersonalResponder_v1.js) (myPersonalResponder\_v1.js). Copy and paste the code into the inline editor – make sure that you overwrite any template code that is already in the code box and save
-3.  You will need to modify your workflow to add your new Lambda. Within the Connect Admin (where you added your Lex bot you can also attach Lambda functions)
+2. Open the lambda function code you will find [here](./myPersonalResponder_v1.js) (myPersonalResponder\_v1.js). Copy and paste the code into the inline editor – make sure that you overwrite any template code that is already in the code box and save. At the top of the file is a 
+3.  Within the Connect Admin (where you added your Lex bot) you can also attach Lambda functions. You will need to modify your workflow to add your new Lambda. 
    ![Phone numbers edit](images/Picture16.png)
-4. Review the Advanced_Workflow by Importing it as a new Flow, in this workflow we add following steps to the Flow:
+
+4. Head to your workflow and Click Integrate from the left hand menu and  drag "Invoke AWS function"
+ ![Phone numbers edit](images/Picture18.png)
+
+
+ and add the lambda function to the workflow:
+
+ ![Phone numbers edit](images/Picture19.png)
+
+5. Review the Advanced_Workflow by Importing it as a new Flow, in this workflow we add following steps to the Flow:
    1. Invoke our AWS Lambda function
    2. The Lambda function returns an Object in which we define whether there is a CustomerMatch (CustomerMatch = 0/1)
    3. If there is a Customer Match: 
       1. We branch off and Set a Contract Attribute to equal the Customer Name returned from the Lambda function
       2. We play a different prompt to the user which is personalised and uses the variable we return
    4. If there is No customer match we simply respond with the original welcome message.
-5. Replicate this in the Simple Workflow you have been using during this lab.
+6. Replicate this flow in the Simple Workflow you have been using during this lab to add this functionality.
 
 
