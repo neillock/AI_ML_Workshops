@@ -98,7 +98,7 @@ The build process takes approximately a minute. Once complete, you can ask your 
 
 We are now in a position that we can transfer the answers to the 'slots' over to a function to perform logic and get a result for the user.
 
-Here we will create a Lambda function that has some Javascript code to detect the intent name (&#39;GetAccountDetail&#39; and return values based on the AccountType and if the Pin number was entered correctly.
+Here we will create a Lambda function that has some Javascript code to detect the intent name (&#39;GetBalanceCheck&#39; and return values based on the AccountType and if the Pin number was entered correctly.
 
 In the Lambda function we have hard-coded an Array of data but in a real world example we would have authenticated the user and would use a database lookup for the account balances.
 
