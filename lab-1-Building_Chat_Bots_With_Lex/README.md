@@ -124,7 +124,7 @@ In this step we will link the three intents we created to the Lambda function. W
 To do this, we go back to the [Lex Console](https://console.aws.amazon.com/lex).
 
 1. Click on Personal Banker
-2. Enure the &#39;GetAccountDetail&#39; intent is selected
+2. Enure the &#39;GetBalanceCheck&#39; intent is selected
 3. Make sure that the &#39;Latest&#39; version is selected for both the bot and the intent
 
 ![Set Lex latest version](images/Picture12.png)
